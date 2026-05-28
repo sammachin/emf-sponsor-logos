@@ -1,0 +1,13 @@
+[app]
+name = "Sponsor Logos"
+category = "Badge"
+
+[entry]
+class = "Sponsors"
+
+[metadata]
+author = "sammachin"
+license = "MIT"
+url = "https://github.com/sammachin/emf-sponsor-logos"
+description = "Fullscreen sponsor logo slideshow"
+version = "0.1.0"
