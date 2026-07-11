@@ -1,0 +1,5 @@
+README.md export-ignore
+LICENSE export-ignore
+.gitignore export-ignore
+fetch_sponsor_logos.py export-ignore
+deploy.sh
