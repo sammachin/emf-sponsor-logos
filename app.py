@@ -16,12 +16,15 @@ _TIER_ORDER = {"palladium": 0, "gold": 1, "badge": 2}
 
 # Sponsor manifest — list of (tier, name, filename, width, height)
 _SPONSORS = [
-    ("palladium", "Nationwide", "nationwide.png", 200, 26),
+    ("badge", "Bosch Sensortec", "bosch_sensortec.png", 200, 113),
+    ("badge", "Espressif", "espressif.png", 200, 36),
+    ("badge", "NextPCB", "nextpcb.png", 200, 37),
+    ("badge", "Texas Instruments", "texas_instruments.png", 200, 70),
     ("gold", "Foundry Zero", "foundry_zero.png", 200, 87),
     ("gold", "zzoomm", "zzoomm.png", 200, 91),
     ("gold", "FullFIbre", "fullfibre.png", 200, 36),
     ("gold", "MathWorks", "mathworks.png", 200, 40),
-    ("badge", "Bosch Sensortec", "bosch_sensortec.png", 200, 113),
+    ("palladium", "Nationwide", "nationwide.png", 200, 26),
 ]
 
 
