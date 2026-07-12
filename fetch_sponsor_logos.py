@@ -5,7 +5,9 @@ Fetch sponsor logos from https://www.emfcamp.org/sponsors
 Downloads logos for the Palladium, Gold, and Badge tiers, converts SVGs to PNG,
 and resizes all images to fit the badge's 240x240 round display.
 
-Outputs PNGs to logos/ and updates the _SPONSORS list in app.py.
+Outputs JPGs to logos/ and updates the _SPONSORS list in app.py.
+(The badge firmware fails to decode some PNGs, so logos are flattened onto a
+white background and saved as JPEG.)
 
 Requirements: pip install requests beautifulsoup4 cairosvg Pillow
 """
@@ -79,7 +81,8 @@ def svg_to_png(svg_bytes):
 
 
 def resize_to_fit(png_bytes, max_size=LOGO_MAX_SIZE):
-    """Resize a PNG so it fits within max_size x max_size, preserving aspect ratio."""
+    """Resize an image to fit within max_size x max_size (preserving aspect ratio),
+    flatten any transparency onto white, and return JPEG bytes."""
     if Image is None:
         print("Warning: Pillow not installed, skipping resize")
         return png_bytes
@@ -93,8 +96,13 @@ def resize_to_fit(png_bytes, max_size=LOGO_MAX_SIZE):
         new_w, new_h = int(w * scale), int(h * scale)
         img = img.resize((new_w, new_h), Image.LANCZOS)
 
+    # Flatten onto a white background — the badge firmware fails to decode some
+    # PNGs, so we emit JPEGs which have no alpha channel.
+    bg = Image.new("RGB", img.size, (255, 255, 255))
+    bg.paste(img, mask=img.split()[3])
+
     buf = io.BytesIO()
-    img.save(buf, format="PNG")
+    bg.save(buf, format="JPEG", quality=90)
     return buf.getvalue()
 
 
@@ -173,7 +181,7 @@ def main():
             img = Image.open(io.BytesIO(data))
             img_w, img_h = img.size
 
-        filename = f"{sanitise_filename(name)}.png"
+        filename = f"{sanitise_filename(name)}.jpg"
         filepath = logos_dir / filename
         with open(filepath, "wb") as f:
             f.write(data)

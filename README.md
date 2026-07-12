@@ -47,7 +47,7 @@ Or specify a serial port:
 ./deploy.sh /dev/cu.usbmodem83101
 ```
 
-The app will appear in the badge launcher under the **Badge** category as **Sponsor Logos**.
+The app will appear in the badge launcher under the **Badge** category as **Sponsors**.
 
 ### Controls
 

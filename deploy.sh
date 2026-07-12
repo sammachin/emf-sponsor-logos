@@ -29,7 +29,7 @@ $CONNECT \
 echo "Copying logos..."
 CMD="$CONNECT"
 FIRST=true
-for f in "$SCRIPT_DIR"/logos/*.png; do
+for f in "$SCRIPT_DIR"/logos/*.jpg; do
     BASENAME=$(basename "$f")
     if [ "$FIRST" = true ]; then
         CMD="$CMD cp $f :/apps/$APP_NAME/logos/$BASENAME"

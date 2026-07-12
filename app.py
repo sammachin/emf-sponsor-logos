@@ -16,15 +16,15 @@ _TIER_ORDER = {"palladium": 0, "gold": 1, "badge": 2}
 
 # Sponsor manifest — list of (tier, name, filename, width, height)
 _SPONSORS = [
-    ("badge", "Bosch Sensortec", "bosch_sensortec.png", 200, 113),
-    ("badge", "Espressif", "espressif.png", 200, 36),
-    ("badge", "NextPCB", "nextpcb.png", 200, 37),
-    ("badge", "Texas Instruments", "texas_instruments.png", 200, 70),
-    ("gold", "Foundry Zero", "foundry_zero.png", 200, 87),
-    ("gold", "zzoomm", "zzoomm.png", 200, 91),
-    ("gold", "FullFIbre", "fullfibre.png", 200, 36),
-    ("gold", "MathWorks", "mathworks.png", 200, 40),
-    ("palladium", "Nationwide", "nationwide.png", 200, 26),
+    ("badge", "Bosch Sensortec", "bosch_sensortec.jpg", 200, 113),
+    ("badge", "Espressif", "espressif.jpg", 200, 36),
+    ("badge", "NextPCB", "nextpcb.jpg", 200, 37),
+    ("badge", "Texas Instruments", "texas_instruments.jpg", 200, 70),
+    ("gold", "Foundry Zero", "foundry_zero.jpg", 200, 87),
+    ("gold", "zzoomm", "zzoomm.jpg", 200, 91),
+    ("gold", "FullFIbre", "fullfibre.jpg", 200, 36),
+    ("gold", "MathWorks", "mathworks.jpg", 200, 40),
+    ("palladium", "Nationwide", "nationwide.jpg", 200, 26),
 ]
 
 
@@ -215,7 +215,7 @@ class Sponsors(app.App):
         ctx.font_size = label_font_size
         ctx.text_align = ctx.CENTER
         ctx.text_baseline = ctx.TOP
-        ctx.move_to(0, -100).text(tier.upper())
+        ctx.move_to(0, -88).text(tier.upper())
 
         # Draw dot indicators
         self._draw_dots(ctx)
@@ -235,11 +235,43 @@ class Sponsors(app.App):
             ctx.image(path, -draw_w / 2, -draw_h / 2, draw_w, draw_h)
         except Exception as e:
             _, name, _, _, _ = self.sponsors[index]
-            ctx.rgb(0.0, 0.0, 0.0)
-            ctx.font_size = heading_font_size
-            ctx.text_align = ctx.CENTER
-            ctx.text_baseline = ctx.MIDDLE
-            ctx.move_to(0, 0).text(name)
+            self._draw_fallback_text(ctx, name)
+
+    def _draw_fallback_text(self, ctx, name, max_width=190):
+        """Render a sponsor name that won't fit as an image, wrapping words and
+        shrinking the font so it stays inside the round display."""
+        ctx.rgb(0.0, 0.0, 0.0)
+        ctx.text_align = ctx.CENTER
+        ctx.text_baseline = ctx.MIDDLE
+
+        # Shrink font size until the longest word fits, then wrap into lines.
+        font_size = heading_font_size
+        words = name.split()
+        while font_size > 12:
+            ctx.font_size = font_size
+            if all(ctx.text_width(w) <= max_width for w in words):
+                break
+            font_size -= 2
+        ctx.font_size = font_size
+
+        # Greedy word wrap.
+        lines = []
+        current = ""
+        for word in words:
+            candidate = word if not current else current + " " + word
+            if ctx.text_width(candidate) <= max_width:
+                current = candidate
+            else:
+                if current:
+                    lines.append(current)
+                current = word
+        if current:
+            lines.append(current)
+
+        line_height = font_size * 1.2
+        start_y = -(len(lines) - 1) * line_height / 2
+        for i, line in enumerate(lines):
+            ctx.move_to(0, start_y + i * line_height).text(line)
 
     def _draw_dots(self, ctx):
         """Draw pagination dots at the bottom."""
