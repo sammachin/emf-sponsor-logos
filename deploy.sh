@@ -7,7 +7,7 @@
 set -e
 
 DEVICE="${1:-auto}"
-APP_NAME="SponsorLogos"
+APP_NAME="emfcamp_tildagon_sponsor_logos"
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 if [ "$DEVICE" = "auto" ]; then

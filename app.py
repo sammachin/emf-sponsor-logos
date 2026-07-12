@@ -31,8 +31,8 @@ _SPONSORS = [
 def _find_logo_dir():
     """Find the logo directory on the badge filesystem."""
     candidates = [
-        "/apps/SponsorLogos/logos",
-        "/apps/SponsorLogos",
+        "/apps/emfcamp_tildagon_sponsor_logos/logos",
+        "/apps/emfcamp_tildagon_sponsor_logos",
     ]
     for path in candidates:
         try:

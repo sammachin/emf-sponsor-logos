@@ -8,6 +8,6 @@ class = "Sponsors"
 [metadata]
 author = "sammachin"
 license = "MIT"
-url = "https://github.com/sammachin/emf-sponsor-logos"
+url = "https://github.com/emfcamp/tildagon-sponsor-logos"
 description = "Fullscreen sponsor logo slideshow"
-version = "1.0.0"
+version = "1.1.1"
